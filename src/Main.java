@@ -18,37 +18,59 @@ public class Main implements Runnable{
         JFrame frame = new JFrame("Music Player");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(createMainPanel(), BorderLayout.CENTER);
-        frame.setSize(500, 300);
+        frame.setSize(500, 400);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
     private JPanel createMainPanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 5));
-        panel.setBackground(new Color(0, 0, 0));
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(175, 174, 174, 255));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
         Font font = new Font("JetBrains Mono", Font.BOLD, 25);
 
+        // Panel for buttons: play, pause, replay
+        JPanel actionPanel = new JPanel(new BorderLayout());
+        actionPanel.setBackground(Color.white);
+        actionPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainPanel.add(actionPanel, BorderLayout.SOUTH);
+
+        JPanel playButtonPanel = new JPanel(new BorderLayout());
+        actionPanel.add(playButtonPanel, BorderLayout.CENTER);
+        JPanel pauseButtonPanel = new JPanel(new BorderLayout());
+        actionPanel.add(pauseButtonPanel, BorderLayout.WEST);
+        JPanel replayButtonPanel = new JPanel(new BorderLayout());
+        actionPanel.add(replayButtonPanel, BorderLayout.EAST);
+
+        // Panel for track icon image
+        JPanel iconPanel = new JPanel(new BorderLayout());
+        mainPanel.add(iconPanel, BorderLayout.CENTER);
+        JLabel trackIcon = new JLabel(new ImageIcon("src/resources/icons/track1Icon.png"));
+        trackIcon.setSize(25, 25);
+        iconPanel.add(trackIcon, BorderLayout.CENTER);
+
+        // Buttons: play, pause, replay
         JButton playButton = new JButton("Play");
         playButton.addActionListener(e -> {
             player.start();
         });
         playButton.setFont(font);
-        panel.add(playButton);
+        playButtonPanel.add(playButton);
 
         JButton pauseButton = new JButton("Pause");
         pauseButton.addActionListener(e -> {
             player.stop();
         });
         pauseButton.setFont(font);
-        panel.add(pauseButton);
+        pauseButtonPanel.add(pauseButton);
+
         JButton replayButton = new JButton("Replay");
         replayButton.addActionListener(e -> {
             player.replay();
         });
         replayButton.setFont(font);
-        panel.add(replayButton);
+        replayButtonPanel.add(replayButton);
 
-        return panel;
+        return mainPanel;
     }
     public class MusicPlayer {
 
